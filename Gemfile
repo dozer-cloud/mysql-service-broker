@@ -3,7 +3,7 @@ ruby "2.1.5"
 
 gem 'sinatra'
 gem 'json'
-gem 'pg'
+gem 'mysql2'
 gem 'rake'
 
 group :development do

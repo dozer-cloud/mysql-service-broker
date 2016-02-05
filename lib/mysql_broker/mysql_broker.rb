@@ -1,7 +1,7 @@
 require_relative '../service_broker_api'
-require_relative 'postgresql_helper'
+require_relative 'mysql_helper'
 
-class PostgresqlBroker < ServiceBrokerApi
+class MysqlBroker < ServiceBrokerApi
   def create_instance(instance_name)
     service.create_database(instance_name)
   end
@@ -19,13 +19,7 @@ class PostgresqlBroker < ServiceBrokerApi
   end
 
   def service
-    postgres_settings = {
-      'host' => ENV.fetch('POSTGRESQL_HOST', 'localhost'),
-      'username' => ENV.fetch('POSTGRESQL_USERNAME', 'postgres'),
-      'password' => ENV.fetch('POSTGRESQL_PASSWORD', 'postgres'),
-      'port' => ENV.fetch('POSTGRESQL_PORT', 5432),
-    }
-    PostgresqlHelper.new(postgres_settings)
+    MysqlHelper.new(ENV['DATABASE_URL'])
   end
 
   def ServiceBrokerApi.app_settings

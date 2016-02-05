@@ -17,16 +17,16 @@ end
 When(/^I create a service instance with :instance_id "(.*?)"$/) do |instance_id|
   path = "/v2/service_instances/#{instance_id}"
 
-  postgresql_service = double
-  expect(PostgresqlHelper).to receive(:new).and_return(postgresql_service)
+  mysql_service = double
+  expect(MysqlHelper).to receive(:new).and_return(mysql_service)
 
   if @databases.nil?
-    expect(postgresql_service).to receive(:create_database).and_raise(ServerNotReachableError)
+    expect(mysql_service).to receive(:create_database).and_raise(ServerNotReachableError)
   elsif @databases.member? instance_id
-    expect(postgresql_service).to receive(:create_database).and_raise(ServiceInstanceAlreadyExistsError)
+    expect(mysql_service).to receive(:create_database).and_raise(ServiceInstanceAlreadyExistsError)
   else
     @databases << instance_id
-    expect(postgresql_service).to receive(:create_database).and_return(path)
+    expect(mysql_service).to receive(:create_database).and_return(path)
   end
 
   put path
@@ -35,18 +35,18 @@ end
 When(/^I bind app with :binding_id "(.*?)" to a service_instance with :instance_id "(.*?)"$/) do |binding_id, instance_id|
   path = "/v2/service_instances/#{instance_id}/service_bindings/#{binding_id}"
 
-  postgresql_service = double
-  expect(PostgresqlHelper).to receive(:new).and_return(postgresql_service)
+  mysql_service = double
+  expect(MysqlHelper).to receive(:new).and_return(mysql_service)
 
   if @users.nil?
-    expect(postgresql_service).to receive(:create_user).and_raise(ServerNotReachableError)
+    expect(mysql_service).to receive(:create_user).and_raise(ServerNotReachableError)
   elsif @users.member? binding_id
-    expect(postgresql_service).to receive(:create_user).and_raise(BindingAlreadyExistsError)
+    expect(mysql_service).to receive(:create_user).and_raise(BindingAlreadyExistsError)
   elsif ! @databases.member? instance_id
-    expect(postgresql_service).to receive(:create_user).and_raise(ServiceInstanceDoesNotExistError)
+    expect(mysql_service).to receive(:create_user).and_raise(ServiceInstanceDoesNotExistError)
   else
     @users << binding_id
-    expect(postgresql_service).to receive(:create_user).and_return(path)
+    expect(mysql_service).to receive(:create_user).and_return(path)
   end
 
   put path
@@ -54,16 +54,16 @@ end
 
 When(/^I unbind app with :binding_id "(.*?)" and :instance_id "(.*?)"$/) do |binding_id, instance_id|
   path = "v2/service_instances/#{instance_id}/service_bindings/#{binding_id}"
-  postgresql_service = double
-  expect(PostgresqlHelper).to receive(:new).and_return(postgresql_service)
+  mysql_service = double
+  expect(MysqlHelper).to receive(:new).and_return(mysql_service)
 
   if @users.nil?
-    expect(postgresql_service).to receive(:delete_user).and_raise(ServerNotReachableError)
+    expect(mysql_service).to receive(:delete_user).and_raise(ServerNotReachableError)
   elsif ! @users.member? binding_id
-    expect(postgresql_service).to receive(:delete_user).and_raise(BindingDoesNotExistError)
+    expect(mysql_service).to receive(:delete_user).and_raise(BindingDoesNotExistError)
   else
     @users.delete binding_id
-    expect(postgresql_service).to receive(:delete_user)
+    expect(mysql_service).to receive(:delete_user)
   end
 
   delete path
@@ -71,15 +71,15 @@ end
 
 When(/^I un\-provision a service instance with :instance_id "(.*?)"$/) do |instance_id|
   path = "/v2/service_instances/#{instance_id}"
-  postgresql_service = double
-  expect(PostgresqlHelper).to receive(:new).and_return(postgresql_service)
+  mysql_service = double
+  expect(MysqlHelper).to receive(:new).and_return(mysql_service)
 
   if @databases.nil?
-    expect(postgresql_service).to receive(:delete_database).and_raise(ServerNotReachableError)
+    expect(mysql_service).to receive(:delete_database).and_raise(ServerNotReachableError)
   elsif ! @databases.member? instance_id
-    expect(postgresql_service).to receive(:delete_database).and_raise(ServiceInstanceDoesNotExistError)
+    expect(mysql_service).to receive(:delete_database).and_raise(ServiceInstanceDoesNotExistError)
   else
-    expect(postgresql_service).to receive(:delete_database)
+    expect(mysql_service).to receive(:delete_database)
   end
   delete path
 end
