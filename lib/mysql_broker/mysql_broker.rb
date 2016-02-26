@@ -23,6 +23,12 @@ class MysqlBroker < ServiceBrokerApi
   end
 
   def ServiceBrokerApi.app_settings
-    @app_settings ||= YAML.load_file('config/settings.yml')
+    @app_settings ||= {
+      'catalog' => YAML.load_file('config/catalog.yml'),
+      'basic_auth' => {
+        'username' => ENV['BROKER_USERNAME'],
+        'password' => ENV['BROKER_PASSWORD']
+      }
+    }
   end
 end

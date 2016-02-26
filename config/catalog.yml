@@ -1,0 +1,25 @@
+catalog:
+  services:
+    - id: c24e763c-49e4-4104-9a91-7785fe86787b
+      name: mysql
+      description: Manage Mysql databases.
+      bindable: true
+      tags:
+        - mysql
+        - database
+      metadata:
+        displayName: Mysql
+        longDescription: The service allows a user to create and manage Mysql databases.
+        providerDisplayName: dozer
+      plans:
+        - id: 8e7cbe31-b17e-433b-8205-33ab1b8a92f3
+          name: small
+          description: Small plan
+          metadata:
+            bullets:
+              - Shared Mysql server
+            costs:
+              - amount:
+                  usd: 0.0
+                unit: MONTHLY
+            displayName: Small
