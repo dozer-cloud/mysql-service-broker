@@ -1,2 +1,2 @@
-require_relative './lib/postgresql_broker/postgresql_broker'
-run PostgresqlBroker.new
+require_relative './lib/mysql_broker/mysql_broker'
+run MysqlBroker.new
