@@ -17,7 +17,7 @@ class MysqlHelper
     run_safely do
       connection.query("CREATE DATABASE #{safe_db_name}")
     end
-    "http://#{@host}:#{@port}/databases/#{db_name}"
+    "http://#{@hostname}:#{@port}/databases/#{db_name}"
   end
 
   def create_user(username, db_name)
@@ -29,13 +29,13 @@ class MysqlHelper
       connection.query("GRANT ALL ON #{safe_db_name}.* TO '#{safe_username}'@'%'")
     end
     {
-      hostname: @host,
+      hostname: @hostname,
       port: @port,
       db_name: db_name,
       username: username,
       password: password,
-      uri: "mysql://#{username}:#{password}@#{@host}:#{@port}/#{db_name}",
-      jdbcUrl: "jdbc:mysql://#{username}:#{password}@#{@host}:#{@port}/#{db_name}"
+      uri: "mysql://#{username}:#{password}@#{@hostname}:#{@port}/#{db_name}",
+      jdbcUrl: "jdbc:mysql://#{username}:#{password}@#{@hostname}:#{@port}/#{db_name}"
     }
   end
 
