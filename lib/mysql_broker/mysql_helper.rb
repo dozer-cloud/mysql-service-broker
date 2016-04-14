@@ -51,9 +51,22 @@ class MysqlHelper
     run_safely do
       connection.query("DROP DATABASE #{safe_db_name}")
     end
+
+    orphaned_users_for(safe_db_name).each do |user|
+      run_safely do
+        connection.query("DROP USER #{user}")
+      end
+    end
   end
 
   private
+
+  def orphaned_users_for(db)
+    run_safely do
+      connection.query("SELECT user FROM mysql.db WHERE db = '#{db}'")
+        .map { |r| r['user']  }
+    end
+  end
 
   def run_safely
     begin
