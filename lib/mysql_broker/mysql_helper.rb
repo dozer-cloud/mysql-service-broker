@@ -70,7 +70,7 @@ class MysqlHelper
       elsif e.message.match /could not connect/
         raise ServerNotReachableError
       else
-        raise StandardError
+        raise StandardError, e.message
       end
     end
   end
