@@ -31,7 +31,7 @@ class MysqlHelper
     {
       hostname: @hostname,
       port: @port,
-      db_name: db_name,
+      db_name: safe_db_name,
       username: safe_username,
       password: password,
       uri: "mysql://#{safe_username}:#{password}@#{@hostname}:#{@port}/#{safe_db_name}",
