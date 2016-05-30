@@ -32,10 +32,10 @@ class MysqlHelper
       hostname: @hostname,
       port: @port,
       db_name: db_name,
-      username: username,
+      username: safe_username,
       password: password,
-      uri: "mysql://#{username}:#{password}@#{@hostname}:#{@port}/#{db_name}",
-      jdbcUrl: "jdbc:mysql://#{username}:#{password}@#{@hostname}:#{@port}/#{db_name}"
+      uri: "mysql://#{safe_username}:#{password}@#{@hostname}:#{@port}/#{safe_db_name}",
+      jdbcUrl: "jdbc:mysql://#{safe_username}:#{password}@#{@hostname}:#{@port}/#{safe_db_name}"
     }
   end
 
