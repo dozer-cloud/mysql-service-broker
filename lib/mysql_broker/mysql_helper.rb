@@ -74,7 +74,7 @@ class MysqlHelper
     rescue => e
       if e.message.match /database \".*\" already exists/
         raise ServiceInstanceAlreadyExistsError
-      elsif e.message.match /database \".*\" does not exist/
+      elsif e.message.match /database doesn't exist/
         raise ServiceInstanceDoesNotExistError
       elsif e.message.match /role \".*\" already exists/
         raise BindingAlreadyExistsError
